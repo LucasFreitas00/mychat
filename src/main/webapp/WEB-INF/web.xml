@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>Chatbot Web Application</display-name>
+
+    <filter>
+        <filter-name>chatfilter</filter-name>
+        <filter-class>com.mychat.v2.chatbot.filter.ChatFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>chatfilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>
+            com.mychat.v2.chatbot.MeuChatContextListener
+        </listener-class>
+    </listener>
+</web-app>

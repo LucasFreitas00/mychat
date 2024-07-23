@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Chatbot</title>
+        <script>
+            // Simplesmente move o scroll para o fundo após o carregamento da página
+            window.onload = function() {
+                const chatbox = document.querySelector(".chatbox");
+                chatbox.scrollTop = chatbox.scrollHeight;
+            };
+        </script>
+        <style>
+            html {
+                display: flex;
+                height: 100vh;
+                font-size: 70%;
+            }
+
+            body {
+                font-size: 1.6rem;
+                font-family: 'Poppins', sans-serif;
+                background: #0d0d0d;
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0 10px;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            h1 {
+                display: none;
+            }
+
+            #chatForm {
+                display: flex;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            #userInput {
+                flex: 1;
+                padding: 10px;
+                border: none;
+                border-radius: 20px 0 0 20px;
+                background: #2c3e50;
+                color: #ecf0f1;
+            }
+
+            button {
+                padding: 10px;
+                background: #1abc9c;
+                border: none;
+                border-radius: 0 20px 20px 0;
+                color: #fff;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+
+            button:hover {
+                background: #16a085;
+            }
+
+            .chatbox {
+                width: 100%;
+                height: calc(100vh - 60px);
+                padding: 10px;
+                background: #222;
+                border-radius: 10px;
+                overflow-y: auto;
+                margin-bottom: 10px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .message {
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 10px;
+                width: fit-content;
+                word-break: break-word;
+                max-width: 60%;
+            }
+
+            .user {
+                display: block;
+                background: #34495e;
+                text-align: right;
+                margin-left: auto;
+                margin-right: 30px;
+            }
+
+            .bot {
+                display: block;
+                background: #1abc9c;
+                text-align: left;
+                margin-left: 30px;
+            }
+
+            .message p {
+                margin: 0;
+            }
+
+            .user p {
+                color: #ecf0f1;
+            }
+
+            .bot p {
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="chatbox">
+            <div th:each="mensagem : ${historico}">
+                <div th:if="${mensagem.msgUsuario()}" class="message user">
+                    <p th:utext="${mensagem.msgUsuario()}"></p>
+                </div>
+                <div th:if="${mensagem.msgBot()}" class="message bot">
+                    <p th:utext="${mensagem.msgBot()}"></p>
+                </div>
+            </div>
+        </div>
+        <form id="chatForm" method="post" th:action="@{/chatbot}">
+            <input type="text" id="userInput" name="userInput" placeholder="Escreva uma mensagem" required/>
+            <button type="submit">&#x27A4;</button>
+        </form>
+    </body>
+</html>
