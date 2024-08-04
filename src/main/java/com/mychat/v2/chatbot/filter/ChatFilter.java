@@ -13,7 +13,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
 import org.thymeleaf.web.IWebApplication;
 import org.thymeleaf.web.IWebExchange;
-import org.thymeleaf.web.IWebRequest;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
@@ -52,15 +51,8 @@ public class ChatFilter implements Filter {
             controllersByURL.put("/chatbot", new ChatbotController(meuChat));
 
             final IWebExchange webExchange = this.application.buildExchange(request, response);
-            final IWebRequest webRequest = webExchange.getRequest();
 
-            if (webRequest.getPathWithinApplication().startsWith("/css") ||
-                    webRequest.getPathWithinApplication().startsWith("/images") ||
-                    webRequest.getPathWithinApplication().startsWith("/favicon")) {
-                return false;
-            }
-
-            final String path = webRequest.getPathWithinApplication();
+            final String path = webExchange.getRequest().getPathWithinApplication();
 
             final ChatController controller = controllersByURL.get(path);
             if (controller == null) {
@@ -94,7 +86,6 @@ public class ChatFilter implements Filter {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
-        templateResolver.setCacheTTLMs(Long.valueOf(3600000L));
         templateResolver.setCacheable(true);
 
         final TemplateEngine templateEngine = new TemplateEngine();

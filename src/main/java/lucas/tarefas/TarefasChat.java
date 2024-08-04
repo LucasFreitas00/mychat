@@ -1,9 +1,12 @@
 package lucas.tarefas;
 
+import com.mychat.v2.chatbot.annotations.Chatbot;
+import com.mychat.v2.chatbot.domain.Mensagem;
 import com.mychat.v2.chatbot.domain.MeuChat;
 import java.util.ArrayList;
 import java.util.List;
 
+@Chatbot
 public class TarefasChat extends MeuChat {
 
     private final List<String> tarefas = new ArrayList<>();
@@ -28,18 +31,20 @@ public class TarefasChat extends MeuChat {
     public void receberMensagem(String msg) {
         System.out.println("Recebendo mensagem: " + msg);
 
-        msg = msg == null ? "0" : msg;
+        String msgTratada = msg == null ? "0" : msg;
 
         // Verifica o estado atual para decidir como processar a mensagem
         if (estadoAtual.equals(ESTADO_INICIAL)) {
-            if (msg.matches("[0-3]")) {
-                processarComando(msg);
+            if (msgTratada.matches("[0-3]")) {
+                processarComando(msgTratada);
             } else {
                 setResposta(MENSAGEM_OPCAO_INVALIDA);
             }
         } else {
-            processarMensagem(msg);
+            processarMensagem(msgTratada);
         }
+
+        addMensagem(new Mensagem(msg, getResposta()));
     }
 
     private void processarComando(String comando) {

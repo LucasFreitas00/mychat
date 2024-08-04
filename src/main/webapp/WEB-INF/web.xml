@@ -18,7 +18,7 @@
 
     <listener>
         <listener-class>
-            com.mychat.v2.chatbot.MeuChatContextListener
+            com.mychat.v2.chatbot.listeners.MeuChatContextListener
         </listener-class>
     </listener>
 </web-app>
